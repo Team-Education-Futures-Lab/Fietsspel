@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BoomStam2
+  m_Name: Bruin 2
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -114,13 +114,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.4433962, g: 0.37375644, b: 0.23215556, a: 1}
-    - _Color: {r: 0.4433962, g: 0.37375644, b: 0.23215556, a: 1}
+    - _BaseColor: {r: 0.41509432, g: 0.32312384, b: 0.18992524, a: 0.5}
+    - _Color: {r: 0.41509432, g: 0.32312384, b: 0.18992524, a: 0.5}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _SpecColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &1373914889475041439
+--- !u!114 &3684154018809521708
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
