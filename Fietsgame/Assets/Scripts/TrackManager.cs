@@ -65,7 +65,7 @@ public class TrackManager : MonoBehaviour
             float localZ = Random.Range(2f, segmentLength - 2f);
 
             Vector3 pos = new Vector3(xPos, 1f, zPos + localZ);
-            Instantiate(coinPrefab, pos, Quaternion.identity, seg.transform);
+            Instantiate(coinPrefab, pos, Quaternion.identity); // Remove the parent parameter
         }
     }
 
