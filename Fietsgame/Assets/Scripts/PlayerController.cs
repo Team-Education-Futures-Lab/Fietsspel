@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private int currentLane = 1;
     private Vector3 targetPosition;
 
+    public Animator animator;
+
     private PlayerControls controls;
 
     private void Start()
@@ -29,10 +31,12 @@ public class PlayerController : MonoBehaviour
         transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
         // Smoothly move to lane position
-
-
         targetPosition = new Vector3((currentLane - 1) * laneDistance, transform.position.y, transform.position.z);
         transform.position = Vector3.Lerp(transform.position, targetPosition, laneSwitchSpeed * Time.deltaTime);
+
+        // Set animator parameters
+        animator.SetBool("IsJumping", !isGrounded);
+        animator.SetFloat("Speed", forwardSpeed);
     }
 
     // Called by Input System
