@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float forwardSpeed = 5f;
     public float laneDistance = 3f;
     public float laneSwitchSpeed = 10f;
+    public float laneOffset = 0f;
+    public Transform[] laneMarkers;
 
     public float jumpForce = 7f;
     private Rigidbody rb;
@@ -23,6 +25,9 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        targetPosition = transform.position;
+        targetPosition.x = laneOffset + (currentLane - 1) * laneDistance; 
     }
 
     void Update()
@@ -31,7 +36,7 @@ public class PlayerController : MonoBehaviour
         transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
         // Smoothly move to lane position
-        targetPosition = new Vector3((currentLane - 1) * laneDistance, transform.position.y, transform.position.z);
+        targetPosition = new Vector3( laneOffset + (currentLane - 1) * laneDistance, transform.position.y, transform.position.z);
         transform.position = Vector3.Lerp(transform.position, targetPosition, laneSwitchSpeed * Time.deltaTime);
 
         // Set animator parameters
@@ -47,13 +52,13 @@ public class PlayerController : MonoBehaviour
         Vector2 input = ctx.ReadValue<Vector2>();
         Debug.Log("Move input: " +  input);
 
-        if (input.x > 0.5f && currentLane < 2) // swipe/move right
+        if (input.x > 0.5f && currentLane < 2) 
         {
             currentLane++;
             Debug.Log("Move right -> lane: " + currentLane);
         }
 
-        else if (input.x < -0.5f && currentLane > 0) // swipe/move left
+        else if (input.x < -0.5f && currentLane > 0) 
         {
             currentLane--;
             Debug.Log("Move Left -> lane:" + currentLane);
