@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
     {
         controls = new PlayerControls();
         controls.Player.Move.performed += ctx => OnMove(ctx);
+        controls.Player.Jump.performed += ctx => OnJump(ctx);
     }
 
     void OnEnable() => controls.Enable();
