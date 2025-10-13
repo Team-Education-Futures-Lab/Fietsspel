@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded = true;
 
+    [Header("Duck")]
+    public float duckForce = 3f;
+
+
     [Header("Lanes")]
     public Transform[] laneMarkers;   
 
@@ -98,6 +102,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnDuck(InputAction.CallbackContext ctx) 
+    {
+
+        Debug.Log("You duck");
+        if (ctx.performed && isGrounded)
+        {
+            rb.AddForce(Vector3.down * duckForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
+    
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -109,6 +125,7 @@ public class PlayerController : MonoBehaviour
         controls = new PlayerControls();
         controls.Player.Move.performed += ctx => OnMove(ctx);
         controls.Player.Jump.performed += ctx => OnJump(ctx);
+        controls.Player.Duck.performed += ctx => OnDuck(ctx);
     }
 
     void OnEnable() => controls.Enable();
