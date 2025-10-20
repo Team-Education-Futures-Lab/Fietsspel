@@ -2010,8 +2010,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -173.5, y: 29.4}
-  m_SizeDelta: {x: 250, y: 300}
+  m_AnchoredPosition: {x: -196, y: 29.4}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &689722427
 MonoBehaviour:
@@ -2033,7 +2033,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7f6dcc4e30650754b80fbebf95e9be5a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 034a87b6d165b76448dd42918972fbde, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5790,7 +5790,7 @@ GameObject:
   - component: {fileID: 1985479353}
   - component: {fileID: 1985479352}
   m_Layer: 5
-  m_Name: Zebrapad
+  m_Name: Haaientanden
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6393,7 +6393,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -170.56287, w: -99.63501}
+  m_margin: {x: 0, y: 18.262268, z: -170.56287, w: -99.63501}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
