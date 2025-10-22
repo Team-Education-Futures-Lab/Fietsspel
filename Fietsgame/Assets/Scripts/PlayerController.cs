@@ -7,9 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float forwardSpeed = 5f;
-    public float laneDistance = 3f;   
+    public float laneDistance = 3f;
     public float laneSwitchSpeed = 10f;
-    public float laneOffset = 0f;     
+    public float laneOffset = 0f;
 
     [Header("Jump")]
     public float jumpForce = 7f;
@@ -21,9 +21,9 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Lanes")]
-    public Transform[] laneMarkers;   
+    public Transform[] laneMarkers;
 
-    private int currentLane = 1;      
+    private int currentLane = 1;
     private Vector3 targetPosition;
 
     [Header("Animation")]
@@ -37,25 +37,25 @@ public class PlayerController : MonoBehaviour
 
         if (laneMarkers != null && laneMarkers.Length >= 3)
         {
-            
+
             System.Array.Sort(laneMarkers, (a, b) => a.position.x.CompareTo(b.position.x));
 
-            
+
             laneDistance = Mathf.Abs(laneMarkers[2].position.x - laneMarkers[1].position.x);
-            laneOffset = laneMarkers[1].position.x; 
+            laneOffset = laneMarkers[1].position.x;
         }
 
-        
+
         targetPosition = transform.position;
         targetPosition.x = laneOffset + (currentLane - 1) * laneDistance;
     }
 
     void Update()
     {
-        
+
         transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
-        
+
         targetPosition = new Vector3(
             laneOffset + (currentLane - 1) * laneDistance,
             transform.position.y,
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, laneSwitchSpeed * Time.deltaTime);
 
-        
+
         if (animator != null)
         {
             animator.SetBool("IsJumping", !isGrounded);
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+
     public void OnMove(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
@@ -80,19 +80,19 @@ public class PlayerController : MonoBehaviour
         Vector2 input = ctx.ReadValue<Vector2>();
         Debug.Log("Move input: " + input);
 
-        if (input.x > 0.5f && currentLane < 2) 
+        if (input.x > 0.5f && currentLane < 2)
         {
             currentLane++;
             Debug.Log("Move right -> lane: " + currentLane);
         }
-        else if (input.x < -0.5f && currentLane > 0) 
+        else if (input.x < -0.5f && currentLane > 0)
         {
             currentLane--;
             Debug.Log("Move left -> lane: " + currentLane);
         }
     }
 
-    
+
     public void OnJump(InputAction.CallbackContext ctx)
     {
         if (ctx.performed && isGrounded)
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnDuck(InputAction.CallbackContext ctx) 
+    public void OnDuck(InputAction.CallbackContext ctx)
     {
 
         Debug.Log("You duck");
@@ -111,13 +111,19 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector3.down * duckForce, ForceMode.Impulse);
             isGrounded = false;
         }
-    
+
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
             isGrounded = true;
+
+
+        if (collision.gameObject.CompareTag(obstacleTag))
+        {
+            GameOver();
+        }
     }
 
     void Awake()
@@ -130,4 +136,29 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable() => controls.Enable();
     void OnDisable() => controls.Disable();
+    [Header("Collision Settings")]
+    [SerializeField] private string obstacleTag = "Obstacle";
+
+    void GameOver()
+    {
+
+        forwardSpeed = 0f;
+
+        if (BikeGameManager.Instance != null)
+        {
+            BikeGameManager.Instance.EndGame();
+        }
+
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+        }
+
+
+        if (animator != null)
+        {
+            animator.SetFloat("Speed", 0f);
+        }
+    }
 }

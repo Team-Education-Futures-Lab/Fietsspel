@@ -32,9 +32,22 @@ public class BikeGameManager : MonoBehaviour
         isGameOver = false;
     }
 
+
+    [Header("UI")]
+    public GameObject gameOverScreen;
+
     public void EndGame()
     {
         hasStarted = false;
         isGameOver = true;
+
+
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(true);
+        }
+
+        Debug.Log("Game Over!");
     }
+
 }
