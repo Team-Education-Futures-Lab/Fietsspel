@@ -1,164 +1,172 @@
-﻿using TMPro;
-using UnityEditor.ShaderGraph;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem; // new Input System
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement")]
-    public float forwardSpeed = 5f;
-    public float laneDistance = 3f;
-    public float laneSwitchSpeed = 10f;
-    public float laneOffset = 0f;
+    #region Singleton
+    private static PlayerController _instance;
+    public static PlayerController Instance => _instance ??= FindObjectOfType<PlayerController>() ?? new GameObject(typeof(PlayerController).Name).AddComponent<PlayerController>();
+    #endregion
 
-    [Header("Jump")]
-    public float jumpForce = 7f;
-    private Rigidbody rb;
-    private bool isGrounded = true;
+    [Header("Movement Settings")]
+    public float moveSpeed = 5f;
 
-    [Header("Duck")]
-    public float duckForce = 3f;
+    [Header("Jump Settings")]
+    public float jumpForce = 10f;
+    public float gravity = 9.81f;
+    public float gravityMultiplier = 2f;
+    public float jumpCooldown = 0.3f;
+    private float normalGravity;
+    private bool isJumping;
+    private bool isGrounded;
+    private bool canJump = true;
 
+    [Header("Slide Settings")]
+    public float slideDuration = 1f;
+    public float airSlideDescentMultiplier = 3f;
+    private bool isSliding;
+    [SerializeField] private CapsuleCollider _playerCollider;
+    private float originalColliderHeight;
+    private Vector3 originalColliderCenter;
 
-    [Header("Lanes")]
-    public Transform[] laneMarkers;
-
-    private int currentLane = 1;
-    private Vector3 targetPosition;
-
-    [Header("Animation")]
+    [Header("References")]
     public Animator animator;
+    public string groundTag;
+    //[SerializeField] private CheckForPath _checkforpath;
 
-    private PlayerControls controls;
+    private Rigidbody rb;
+
+    // Input system fields
+    private PlayerInput _playerInput;
+    private InputAction _jumpAction;
+    private InputAction _slideAction;
+
+    private void Awake()
+    {
+        _playerInput = GetComponent<PlayerInput>();
+        if (_playerInput == null)
+        {
+            Debug.LogError("PlayerInput component is missing! Please add one to the Player object.");
+            return;
+        }
+
+        _jumpAction = _playerInput.actions["Jump"];
+        _slideAction = _playerInput.actions["Slide"];
+    }
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        normalGravity = gravity;
 
-        if (laneMarkers != null && laneMarkers.Length >= 3)
-        {
-
-            System.Array.Sort(laneMarkers, (a, b) => a.position.x.CompareTo(b.position.x));
-
-
-            laneDistance = Mathf.Abs(laneMarkers[2].position.x - laneMarkers[1].position.x);
-            laneOffset = laneMarkers[1].position.x;
-        }
-
-
-        targetPosition = transform.position;
-        targetPosition.x = laneOffset + (currentLane - 1) * laneDistance;
+        originalColliderHeight = _playerCollider.height;
+        originalColliderCenter = _playerCollider.center;
     }
 
-    void Update()
+    private void Update()
     {
-
-        transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
-
-
-        targetPosition = new Vector3(
-            laneOffset + (currentLane - 1) * laneDistance,
-            transform.position.y,
-            transform.position.z
-        );
-
-        transform.position = Vector3.Lerp(transform.position, targetPosition, laneSwitchSpeed * Time.deltaTime);
-
-
-        if (animator != null)
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Start Running") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
         {
-            animator.SetBool("IsJumping", !isGrounded);
-            animator.SetFloat("Speed", forwardSpeed);
+            animator.SetBool("IsRunning", true);
+        }
+
+        if (EndlessRunner.Instance.hasStarted && !_checkforpath.hasDied)
+        {
+            HandleInput();
         }
     }
 
-
-    public void OnMove(InputAction.CallbackContext ctx)
+    private void HandleInput()
     {
-        if (!ctx.performed) return;
+        HandleGravity();
+        HandleJump();
+        HandleSlide();
+    }
 
-        Vector2 input = ctx.ReadValue<Vector2>();
-        Debug.Log("Move input: " + input);
-
-        if (input.x > 0.5f && currentLane < 2)
+    private void HandleGravity()
+    {
+        if (!isGrounded)
         {
-            currentLane++;
-            Debug.Log("Move right -> lane: " + currentLane);
-        }
-        else if (input.x < -0.5f && currentLane > 0)
-        {
-            currentLane--;
-            Debug.Log("Move left -> lane: " + currentLane);
+            if (isSliding)
+            {
+                rb.linearVelocity += Vector3.down * gravity * airSlideDescentMultiplier * Time.deltaTime;
+            }
+            else
+            {
+                rb.linearVelocity += Vector3.down * gravity * gravityMultiplier * Time.deltaTime;
+            }
         }
     }
 
-
-    public void OnJump(InputAction.CallbackContext ctx)
+    private void HandleJump()
     {
-        if (ctx.performed && isGrounded)
+        if (_jumpAction.WasPressedThisFrame() && canJump && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
+            Jump();
         }
     }
 
-    public void OnDuck(InputAction.CallbackContext ctx)
+    private void Jump()
     {
-
-        Debug.Log("You duck");
-        if (ctx.performed && isGrounded)
+        if (isSliding)
         {
-            rb.AddForce(Vector3.down * duckForce, ForceMode.Impulse);
-            isGrounded = false;
+            animator.ResetTrigger("StaySliding");
+            animator.ResetTrigger("IsSliding");
+            animator.SetTrigger("IsJumping");
+            isSliding = false;
+        }
+        else
+        {
+            animator.SetTrigger("IsJumping");
         }
 
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, Mathf.Sqrt(2f * jumpForce * normalGravity), rb.linearVelocity.z);
+
+        isJumping = true;
+        isGrounded = false;
+
+        StartCoroutine(JumpCooldown());
     }
 
-    void OnCollisionEnter(Collision collision)
+    private IEnumerator JumpCooldown()
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        canJump = false;
+        yield return new WaitForSeconds(jumpCooldown);
+        canJump = true;
+    }
+
+    private void HandleSlide()
+    {
+        if (_slideAction.WasPressedThisFrame() && !isSliding)
+        {
+            StartCoroutine(SlideRoutine());
+        }
+    }
+
+    private IEnumerator SlideRoutine()
+    {
+        isSliding = true;
+        animator.SetTrigger("IsSliding");
+
+        _playerCollider.height = originalColliderHeight * 0.5f;
+        _playerCollider.center = new Vector3(originalColliderCenter.x, originalColliderCenter.y - (originalColliderHeight * 0.25f), originalColliderCenter.z);
+
+        yield return new WaitForSeconds(slideDuration);
+
+        _playerCollider.height = originalColliderHeight;
+        _playerCollider.center = originalColliderCenter;
+        isSliding = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag(groundTag))
+        {
             isGrounded = true;
-
-
-        if (collision.gameObject.CompareTag(obstacleTag))
-        {
-            GameOver();
-        }
-    }
-
-    void Awake()
-    {
-        controls = new PlayerControls();
-        controls.Player.Move.performed += ctx => OnMove(ctx);
-        controls.Player.Jump.performed += ctx => OnJump(ctx);
-        controls.Player.Duck.performed += ctx => OnDuck(ctx);
-    }
-
-    void OnEnable() => controls.Enable();
-    void OnDisable() => controls.Disable();
-    [Header("Collision Settings")]
-    [SerializeField] private string obstacleTag = "Obstacle";
-
-    void GameOver()
-    {
-
-        forwardSpeed = 0f;
-
-        if (BikeGameManager.Instance != null)
-        {
-            BikeGameManager.Instance.EndGame();
-        }
-
-
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-        }
-
-
-        if (animator != null)
-        {
-            animator.SetFloat("Speed", 0f);
+            isJumping = false;
+            animator.ResetTrigger("IsJumping");
         }
     }
 }
