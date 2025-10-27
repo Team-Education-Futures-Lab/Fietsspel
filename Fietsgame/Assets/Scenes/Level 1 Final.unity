@@ -314,9 +314,25 @@ PrefabInstance:
       propertyPath: 'laneMarkers.Array.data[2]'
       value: 
       objectReference: {fileID: 569423506}
+    - target: {fileID: 4136556364461100992, guid: 26485ef0c01f9b34fbf62ea6d23d2e40, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 1090d7fb27db2c949bc5853e6859c0a3, type: 3}
+    - target: {fileID: 4136556364461100992, guid: 26485ef0c01f9b34fbf62ea6d23d2e40, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bea58cbacda6f764e97ba9d051a6f7b8, type: 2}
+    - target: {fileID: 4136556364461100992, guid: 26485ef0c01f9b34fbf62ea6d23d2e40, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7260924516834496256, guid: 26485ef0c01f9b34fbf62ea6d23d2e40, type: 3}
       propertyPath: m_Name
       value: Good Player_
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260924516834496256, guid: 26485ef0c01f9b34fbf62ea6d23d2e40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8036722791277925818, guid: 26485ef0c01f9b34fbf62ea6d23d2e40, type: 3}
       propertyPath: m_LocalScale.x
