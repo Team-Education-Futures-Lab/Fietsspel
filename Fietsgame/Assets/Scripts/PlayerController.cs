@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("IsJumping", !isGrounded);
             animator.SetFloat("Speed", forwardSpeed);
+            animator.SetBool("IsDucking", !isGrounded);
         }
     }
 
