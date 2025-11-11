@@ -111,10 +111,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnDuck(InputAction.CallbackContext ctx)
     {
-        Debug.Log("You duck");
+       
 
         if (ctx.performed && isGrounded)
         {
+            Debug.Log("You duck");
             rb.AddForce(Vector3.down * duckForce, ForceMode.Impulse);
             isGrounded = false;
         }
