@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded = true;
 
-    [Header("Duck")]
-    public float duckForce = 3f;
+    [Header("Slide")]
+    public float slideForce = 3f;
 
     [Header("Lanes")]
     public Transform[] laneMarkers;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
 
     [Header("Collision Settings")]
-    [SerializeField] private string obstacleTag = "Obstacle";
+    public string obstacleTag = "Obstacle";
 
     private PlayerControls controls;
 
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         controls = new PlayerControls();
         controls.Player.Move.performed += ctx => OnMove(ctx);
         controls.Player.Jump.performed += ctx => OnJump(ctx);
-        controls.Player.Duck.performed += ctx => OnDuck(ctx);
+        controls.Player.Duck.performed += ctx => OnSlide(ctx);
     }
 
     private void OnEnable() => controls.Enable();
@@ -45,17 +45,23 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
+        // Setup lane markers
         if (laneMarkers != null && laneMarkers.Length >= 3)
         {
-            // Sort lane markers left to right
             System.Array.Sort(laneMarkers, (a, b) => a.position.x.CompareTo(b.position.x));
-
             laneDistance = Mathf.Abs(laneMarkers[2].position.x - laneMarkers[1].position.x);
             laneOffset = laneMarkers[1].position.x;
         }
 
         targetPosition = transform.position;
         targetPosition.x = laneOffset + (currentLane - 1) * laneDistance;
+
+        // animator start
+        if (animator != null)
+        {
+            animator.SetBool("StartRunning", true);
+            animator.SetBool("IsRunning", true);
+        }
     }
 
     private void Update()
@@ -63,7 +69,7 @@ public class PlayerController : MonoBehaviour
         // Forward movement
         transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
-        // Smooth lane switching
+        // Smooth lane transition
         targetPosition = new Vector3(
             laneOffset + (currentLane - 1) * laneDistance,
             transform.position.y,
@@ -71,63 +77,66 @@ public class PlayerController : MonoBehaviour
         );
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, laneSwitchSpeed * Time.deltaTime);
-
-        // Update animator parameters
-        if (animator != null)
-        {
-            animator.SetBool("IsJumping", !isGrounded);
-            animator.SetFloat("Speed", forwardSpeed);
-            animator.SetBool("IsDucking", !isGrounded);
-        }
     }
 
-    public void OnMove(InputAction.CallbackContext ctx)
+    // -----------------------
+    // Input Handling
+    // -----------------------
+
+    private void OnMove(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
 
         Vector2 input = ctx.ReadValue<Vector2>();
-        Debug.Log("Move input: " + input);
 
         if (input.x > 0.5f && currentLane < 2)
-        {
             currentLane++;
-            Debug.Log("Move right -> lane: " + currentLane);
-        }
         else if (input.x < -0.5f && currentLane > 0)
-        {
             currentLane--;
-            Debug.Log("Move left -> lane: " + currentLane);
-        }
     }
 
-    public void OnJump(InputAction.CallbackContext ctx)
+    private void OnJump(InputAction.CallbackContext ctx)
     {
         if (ctx.performed && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+
+            animator.SetTrigger("IsJumping");
         }
     }
 
-    public void OnDuck(InputAction.CallbackContext ctx)
+    private void OnSlide(InputAction.CallbackContext ctx)
     {
-       
+        if (!ctx.performed || !isGrounded)
+            return;
 
-        if (ctx.performed && isGrounded)
-        {
-            Debug.Log("You duck");
-            rb.AddForce(Vector3.down * duckForce, ForceMode.Impulse);
-            isGrounded = false;
-        }
+        // trigger sliding
+        animator.SetTrigger("IsSliding");
+        animator.SetTrigger("StaySliding");
+
+        rb.AddForce(Vector3.down * slideForce, ForceMode.Impulse);
+        isGrounded = false;
     }
+
+    // -----------------------
+    // Collision Handling
+    // -----------------------
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
+        {
             isGrounded = true;
+            return;
+        }
 
         if (collision.gameObject.CompareTag(obstacleTag))
         {
+            animator.SetTrigger("ObstacleLeftEncountered");
+            animator.SetTrigger("ObstacleRightEncountered");
+            animator.SetTrigger("ObstacleLeftEncountered");
+
             GameOver();
         }
     }
@@ -136,19 +145,12 @@ public class PlayerController : MonoBehaviour
     {
         forwardSpeed = 0f;
 
+        rb.linearVelocity = Vector3.zero;
+
+        animator.SetBool("IsRunning", false);
+
         if (BikeGameManager.Instance != null)
-        {
             BikeGameManager.Instance.EndGame();
-        }
-
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-        }
-
-        if (animator != null)
-        {
-            animator.SetFloat("Speed", 0f);
-        }
     }
 }
+

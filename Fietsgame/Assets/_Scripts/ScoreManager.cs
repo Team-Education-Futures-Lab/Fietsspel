@@ -37,7 +37,7 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        if (BikeGameManager.Instance != null && BikeGameManager.Instance.hasStarted)
+        if (EndlessRunner.Instance.hasStarted)
         {
             scoreIncreaseTimer += Time.deltaTime;
 
