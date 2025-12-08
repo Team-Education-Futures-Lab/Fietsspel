@@ -828,6 +828,66 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4135082083706627645, guid: 18dd1b560e3d31a48a00d3f1f78c7fce, type: 3}
   m_PrefabInstance: {fileID: 972561069}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1043180988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1043180990}
+  - component: {fileID: 1043180989}
+  m_Layer: 0
+  m_Name: 'CollectibleSpawner '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1043180989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043180988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ca45487259cd44d8e4dc8e515cdbc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollectiblesSpawner
+  collectiblePrefabs:
+  - {fileID: 7706364326091201991, guid: e82e98af893efd34f97d1bd57019a984, type: 3}
+  - {fileID: 1944795716287990279, guid: 4b508bc87868a1e40811cb4b5abc497c, type: 3}
+  - {fileID: 121784387612262533, guid: 5a2092c499fdf764f8707b551639b929, type: 3}
+  - {fileID: 8778984415245732102, guid: 6faeea9a3056c4742b64585c717f973e, type: 3}
+  - {fileID: 2899938549126976320, guid: c05cf19e1af869b418ba5e958387c810, type: 3}
+  - {fileID: 5393661938134665625, guid: 76175b2c8c240514fbb3bdaebadb103a, type: 3}
+  spawnDelay: 180
+  spawnDistanceAhead: 40
+  safeCheckRadius: 1.5
+  obstacleTag: Obstacle
+  laneMarkers:
+  - {fileID: 1673929804}
+  - {fileID: 1323373207}
+  - {fileID: 569423506}
+  player: {fileID: 1307534613}
+--- !u!4 &1043180990
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043180988}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.19571, y: -0.12999, z: -93.19637}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1138334888
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,3 +1529,4 @@ SceneRoots:
   - {fileID: 613591763}
   - {fileID: 245979730}
   - {fileID: 1853418150}
+  - {fileID: 1043180990}
