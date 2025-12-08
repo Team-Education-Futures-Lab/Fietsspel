@@ -345,7 +345,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4286577994296813598, guid: 79e9f654f7a91a74fba91391624c8a8b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 50.3
       objectReference: {fileID: 0}
     - target: {fileID: 4286577994296813598, guid: 79e9f654f7a91a74fba91391624c8a8b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -353,7 +353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4286577994296813598, guid: 79e9f654f7a91a74fba91391624c8a8b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -300
+      value: -416.7
       objectReference: {fileID: 0}
     - target: {fileID: 4286577994296813598, guid: 79e9f654f7a91a74fba91391624c8a8b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -402,7 +402,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4286577994296813598, guid: c42e85d82441dc049829e5ee292b183e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 50.3
       objectReference: {fileID: 0}
     - target: {fileID: 4286577994296813598, guid: c42e85d82441dc049829e5ee292b183e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -485,6 +485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BikeGameManager
   hasStarted: 0
   isGameOver: 0
+  gameOverScreen: {fileID: 0}
 --- !u!4 &1087049784
 Transform:
   m_ObjectHideFlags: 0
@@ -618,7 +619,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4286577994296813598, guid: 51d4d1389de6d1d4895e8b2b40faa200, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 221.4
       objectReference: {fileID: 0}
     - target: {fileID: 4286577994296813598, guid: 51d4d1389de6d1d4895e8b2b40faa200, type: 3}
       propertyPath: m_LocalPosition.y
@@ -864,7 +865,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4286577994296813598, guid: 75eb5855505f03946950860c2ee738c6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -83.4
       objectReference: {fileID: 0}
     - target: {fileID: 4286577994296813598, guid: 75eb5855505f03946950860c2ee738c6, type: 3}
       propertyPath: m_LocalPosition.y
