@@ -864,7 +864,7 @@ MonoBehaviour:
   - {fileID: 8778984415245732102, guid: 6faeea9a3056c4742b64585c717f973e, type: 3}
   - {fileID: 2899938549126976320, guid: c05cf19e1af869b418ba5e958387c810, type: 3}
   - {fileID: 5393661938134665625, guid: 76175b2c8c240514fbb3bdaebadb103a, type: 3}
-  spawnDelay: 180
+  spawnDelay: 30
   spawnDistanceAhead: 40
   safeCheckRadius: 1.5
   obstacleTag: Obstacle
@@ -919,7 +919,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BikeGameManager
   hasStarted: 0
   isGameOver: 0
-  gameOverScreen: {fileID: 1222724094}
 --- !u!4 &1138334890
 Transform:
   m_ObjectHideFlags: 0
@@ -935,11 +934,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1222724094 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 214728266516086567, guid: 279311f620075554aaaac308697dfc60, type: 3}
-  m_PrefabInstance: {fileID: 1711599591}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1307534612 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3410924817437914291, guid: 480151bfe90af3642b9087d591feb681, type: 3}
