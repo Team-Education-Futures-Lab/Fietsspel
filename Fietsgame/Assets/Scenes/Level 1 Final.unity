@@ -1355,6 +1355,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 214728266516086567, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099999224009070240, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099999224009070240, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11500000, guid: 0603ca798f5e0674cb41cd465f634831, type: 3}
+    - target: {fileID: 1099999224009070240, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_name
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099999224009070240, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEditor.MonoScript, UnityEditor.CoreModule
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099999224009070240, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: PlayGame();
+      objectReference: {fileID: 0}
     - target: {fileID: 4525005528948380869, guid: 279311f620075554aaaac308697dfc60, type: 3}
       propertyPath: m_LocalPosition.x
       value: 112.32699
@@ -1398,6 +1422,46 @@ PrefabInstance:
     - target: {fileID: 5502043299513958551, guid: 279311f620075554aaaac308697dfc60, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6488180663466539423, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6488180663466539423, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11500000, guid: 0603ca798f5e0674cb41cd465f634831, type: 3}
+    - target: {fileID: 6488180663466539423, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6488180663466539423, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_name
+      objectReference: {fileID: 0}
+    - target: {fileID: 6488180663466539423, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEditor.MonoScript, UnityEditor.CoreModule
+      objectReference: {fileID: 0}
+    - target: {fileID: 6488180663466539423, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: QuitGame();
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113570786985163867, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_text
+      value: Afsluiten
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113570786985163867, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_fontSize
+      value: 90.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113570786985163867, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 90.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113570786985163867, guid: 279311f620075554aaaac308697dfc60, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

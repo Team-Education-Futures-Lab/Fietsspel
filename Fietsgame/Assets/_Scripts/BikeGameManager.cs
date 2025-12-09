@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BikeGameManager : MonoBehaviour
 {
@@ -32,22 +33,16 @@ public class BikeGameManager : MonoBehaviour
         isGameOver = false;
     }
 
-
-    [Header("UI")]
-    public GameObject gameOverScreen;
-
     public void EndGame()
     {
+        if (isGameOver) return; // prevent double-triggering
+
         hasStarted = false;
         isGameOver = true;
 
-
-        if (gameOverScreen != null)
-        {
-            gameOverScreen.SetActive(true);
-        }
-
         Debug.Log("Game Over!");
-    }
 
+        // Load your Game Over scene
+        SceneManager.LoadScene("GameOver");
+    }
 }
