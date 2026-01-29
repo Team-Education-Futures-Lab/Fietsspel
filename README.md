@@ -14,7 +14,6 @@ De bedoeling van level 2 is dat de speler begint op het wandelgedeelte waar verk
 ---
 
 ### Technical
-**Github Link:** https://github.com/Team-Education-Futures-Lab/Fietsspel
 
 De game wordt gemaakt in Unity 6 versie 6000.2.3f1. Er wordt voor de beweging gebruikt wordt gemaakt van het Input system. Voor level 2 moeten de overgang van lopen naar fietsen gemaakt worden. Ook hadden wij bedacht dat er misschien nog een hond of iets achter je aan rent die moet ook nog gemaakt worden in zowel level 1 als 2. Ook moet er nog na de borden 7x zien een fiets + fietsenrek langs de weg gezet moeten worden. Er was namelijk het idee om in level 2 ook echt de fiets te pakken in de game. Dat kan als de speler alle delen van de fiets in level 1 heeft opgepakt. Dan krijgt de speler namelijk een sleutel waar ze dan in level 2 weer de fiets mee kunnen pakken door de sleutel te gebruiken. Dit zodat het niet lijkt alsof ze de fiets stelen.
 
