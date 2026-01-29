@@ -1,16 +1,23 @@
-****Overdracht document ****
+**Overdracht document**
+
 **Design**
 De bedoeling van level 2 is dat de speler begint op het wandelgedeelte waar verkeersborden moeten spawnen net zoals de onderdelen in level 1 (dit is nog niet geimplementeert) wanneer alle onderdelen verzameld zijn komt er een segment waar de speler een fiets pakt uit een stalling (met de eerder gewonnen fietsleutel na level 1) en overwisselt naar het fietspad gedeelte en daar moet reageren op de verkeersborden
 Wat moet er nog gebeuren aan level 2:
+
 •	Water in de vijver in het eerste segment
+
 •	De popups (het canvas met 2 kleine opzetjes van een popup) moeten nog verder uitgewerkt worden, de bedoeling van de popups is dat je die in beeld krijgt bij het verzamelen van een verkeersbord en in totaal 7x te zien krijgt gedurende het level.
+
 •	Invulling laatste 3 segmenten
+
 •	De laatste 3 segmenten hebben in het wandel gedeelte nog geen obstacles de indeling voor dat level moet nog verzonnen worden (misshien iets met een modderpoel ontwijken varieert de gameplay)
+
 **Technical**
-Github Link https://github.com/Team-Education-Futures-Lab/Fietsspel 
 De game wordt gemaakt in Unity 6 versie 6000.2.3f1. Er wordt voor de beweging gebruikt wordt gemaakt van het Input system. Voor level 2 moeten de overgang van lopen naar fietsen gemaakt worden. Ook hadden wij bedacht dat er misschien nog een hond of iets achter je aan rent die moet ook nog gemaakt worden in zowel level 1 als 2. Ook moet er nog na de borden 7x zien een fiets + fietsenrek langs de weg gezet moeten worden. Er was namelijk het idee om in level 2 ook echt de fiets te pakken in de game. 
- 
+
+
 **Meeting notes**
+
 **09-09-2025**
 Vandaag hadden wij de eerste stakeholder meeting. Vandaag was het voorstellen aan iedereen ook de andere stakeholders daarna zijn we met Marja apart gaan zitten om onze game te bespreken en te kijken wat de bedoeling is. Wij hadden van te voren wat vragen opgeschreven voor de dingen die nog niet helemaal duidelijk waren voor ons. 
 De vragen waren:
@@ -40,7 +47,7 @@ en dan langs een fietsenstalling te lopen en een fiets te pakken en dan verder t
 **30-10-2025**
 Vandaag zijn wij naar het schakelcollege gegaan. Wij hebben daar een rondleiding gekregen en hebben bij twee verschillende niveau’s meegekeken bij een les. Ook hebben we het gehad over de game en wat we er wel en niet in toevoegen. Ook hebben we erg leuke/handige bordjes aan het plafon zien hangen waar op staat waar een lokaal is plus een kleine tekening van wat je doet in dat lokaal. Dit willen wij eigenlijk toevoegen aan de game maar op het moment weten we nog niet zo goed hoe we dit kunnen toevoegen. Wij hebben daar veel informatie over het niveau van de groepen gekregen en kunnen hier zeker wat mee. 
 
-**11-11-2025 **
+**11-11-2025**
 Prioriteiten liggen ook bij school en kijken wat mogelijk gaat zijn en wat geen prioriteit heeft. Volgende week een werkende animatie die goed loopt. Docenten en leerlingen handleiding gaan hun maken. Onze planning voor de aankomende week is dat de animatie werkend wordt en dat level 2 het wandelpad met de verkeersborden er gaat komen. Het homescreen aanpassen naar een scherm met 4 knoppen voor ook uitleg over hoe het spel werken en uitleg over de verkeersborden en regels. 
 
 **20-11-2025**
