@@ -8,12 +8,12 @@ public class CollectiblesSpawner : MonoBehaviour
     public float spawnDelay = 180f;              // Time between spawns
 
     [Header("Spawn Settings")]
-    public float spawnDistanceAhead = 40f;       // How far in front of player
-    public float safeCheckRadius = 1.5f;         // How far to search for obstacles
-    public string obstacleTag = "Obstacle";      // Your obstacle tag (trees, rocks, etc.)
+    public float spawnDistanceAhead = 40f;
+    public float safeCheckRadius = 1.5f;
+    public string obstacleTag = "Obstacle";
 
     [Header("Lane & Player References")]
-    public Transform[] laneMarkers;              // Same lane markers as PlayerController
+    public Transform[] laneMarkers;
     public Transform player;
 
     private void Start()
@@ -30,7 +30,6 @@ public class CollectiblesSpawner : MonoBehaviour
             return;
         }
 
-        // Make sure left → right
         System.Array.Sort(laneMarkers, (a, b) => a.position.x.CompareTo(b.position.x));
 
         ShuffleCollectibles();
@@ -54,7 +53,6 @@ public class CollectiblesSpawner : MonoBehaviour
         while (attempts < maxAttempts)
         {
             attempts++;
-
             int lane = Random.Range(0, laneMarkers.Length);
 
             Vector3 spawnPos = new Vector3(
@@ -63,9 +61,7 @@ public class CollectiblesSpawner : MonoBehaviour
                 player.position.z + spawnDistanceAhead
             );
 
-            // Sphere check for obstacle TAG
             Collider[] hits = Physics.OverlapSphere(spawnPos, safeCheckRadius);
-
             bool blocked = false;
             foreach (Collider hit in hits)
             {
@@ -78,7 +74,13 @@ public class CollectiblesSpawner : MonoBehaviour
 
             if (!blocked)
             {
-                Instantiate(prefab, spawnPos, Quaternion.identity);
+                // --- NEW LOGIC START ---
+                GameObject spawnedItem = Instantiate(prefab, spawnPos, Quaternion.identity);
+
+                // Add the destruction component automatically at runtime
+                CollectibleDestruction handler = spawnedItem.AddComponent<CollectibleDestruction>();
+                handler.playerTag = "Player"; // Ensure your player has this tag
+                // --- NEW LOGIC END ---
                 return;
             }
         }
@@ -86,7 +88,6 @@ public class CollectiblesSpawner : MonoBehaviour
         Debug.LogWarning("CollectibleSpawner: Could not find a safe spawn position!");
     }
 
-    // Shuffle collectibles so each spawns once in random order
     private void ShuffleCollectibles()
     {
         for (int i = collectiblePrefabs.Length - 1; i > 0; i--)
@@ -95,6 +96,21 @@ public class CollectiblesSpawner : MonoBehaviour
             var temp = collectiblePrefabs[i];
             collectiblePrefabs[i] = collectiblePrefabs[rand];
             collectiblePrefabs[rand] = temp;
+        }
+    }
+}
+
+// Small helper class included in the same file to handle the "Destroy"
+public class CollectibleDestruction : MonoBehaviour
+{
+    public string playerTag = "Player";
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(playerTag))
+        {
+            // You can add score logic here later!
+            Destroy(gameObject);
         }
     }
 }
