@@ -4,13 +4,13 @@ using UnityEngine;
 public class CollectiblesSpawner : MonoBehaviour
 {
     [Header("Collectibles")]
-    public GameObject[] collectiblePrefabs;      // Must contain 6 unique prefabs
-    public float spawnDelay = 180f;              // Time between spawns
+    public GameObject[] collectiblePrefabs;
+    public float spawnDelay = 10f;
 
     [Header("Spawn Settings")]
     public float spawnDistanceAhead = 40f;
-    public float safeCheckRadius = 1.5f;
-    public string obstacleTag = "Obstacle";
+    public float safeCheckRadius = 2.0f; // Increase this if it still spawns too close to trees
+    public string obstacleTag = "Obstacle"; // Set this to "Obstacle" in the Inspector
 
     [Header("Lane & Player References")]
     public Transform[] laneMarkers;
@@ -18,17 +18,8 @@ public class CollectiblesSpawner : MonoBehaviour
 
     private void Start()
     {
-        if (collectiblePrefabs.Length != 6)
-        {
-            Debug.LogError("CollectibleSpawner: You must assign exactly 6 collectible prefabs!");
-            return;
-        }
-
-        if (laneMarkers == null || laneMarkers.Length < 3)
-        {
-            Debug.LogError("CollectibleSpawner: Missing lane markers!");
-            return;
-        }
+        if (collectiblePrefabs == null || collectiblePrefabs.Length == 0) return;
+        if (player == null) return;
 
         System.Array.Sort(laneMarkers, (a, b) => a.position.x.CompareTo(b.position.x));
 
@@ -47,45 +38,45 @@ public class CollectiblesSpawner : MonoBehaviour
 
     private void SpawnCollectibleSafe(GameObject prefab)
     {
+        int maxAttempts = 20;
         int attempts = 0;
-        int maxAttempts = 10;
 
         while (attempts < maxAttempts)
         {
             attempts++;
-            int lane = Random.Range(0, laneMarkers.Length);
+
+            int laneIndex = Random.Range(0, laneMarkers.Length);
+            Transform selectedLane = laneMarkers[laneIndex];
 
             Vector3 spawnPos = new Vector3(
-                laneMarkers[lane].position.x,
-                player.position.y + 1f,
+                selectedLane.position.x,
+                player.position.y + 1.2f,
                 player.position.z + spawnDistanceAhead
             );
 
-            Collider[] hits = Physics.OverlapSphere(spawnPos, safeCheckRadius);
-            bool blocked = false;
-            foreach (Collider hit in hits)
+            // --- TAG CHECK LOGIC ---
+            // Find all colliders in the area
+            Collider[] colliders = Physics.OverlapSphere(spawnPos, safeCheckRadius);
+            bool isBlocked = false;
+
+            foreach (var col in colliders)
             {
-                if (hit.CompareTag(obstacleTag))
+                if (col.CompareTag(obstacleTag))
                 {
-                    blocked = true;
+                    isBlocked = true;
                     break;
                 }
             }
 
-            if (!blocked)
+            if (!isBlocked)
             {
-                // --- NEW LOGIC START ---
-                GameObject spawnedItem = Instantiate(prefab, spawnPos, Quaternion.identity);
-
-                // Add the destruction component automatically at runtime
-                CollectibleDestruction handler = spawnedItem.AddComponent<CollectibleDestruction>();
-                handler.playerTag = "Player"; // Ensure your player has this tag
-                // --- NEW LOGIC END ---
+                GameObject item = Instantiate(prefab, spawnPos, Quaternion.identity);
+                item.AddComponent<CollectiblePickup>();
                 return;
             }
         }
 
-        Debug.LogWarning("CollectibleSpawner: Could not find a safe spawn position!");
+        Debug.LogWarning("Spawner: Skip spawn - could not find a lane without an Obstacle tag.");
     }
 
     private void ShuffleCollectibles()
@@ -96,21 +87,6 @@ public class CollectiblesSpawner : MonoBehaviour
             var temp = collectiblePrefabs[i];
             collectiblePrefabs[i] = collectiblePrefabs[rand];
             collectiblePrefabs[rand] = temp;
-        }
-    }
-}
-
-// Small helper class included in the same file to handle the "Destroy"
-public class CollectibleDestruction : MonoBehaviour
-{
-    public string playerTag = "Player";
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag(playerTag))
-        {
-            // You can add score logic here later!
-            Destroy(gameObject);
         }
     }
 }

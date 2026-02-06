@@ -1,34 +1,36 @@
 using UnityEngine;
-using TMPro; // If you are using standard UI Text, change this to 'using UnityEngine.UI;'
+using TMPro;
 
-public class counter : MonoBehaviour
+public class Counter : MonoBehaviour
 {
-    public static ScoreManager Instance;
+    public static Counter Instance;
 
-    [Header("UI Reference")]
-    public TextMeshProUGUI scoreText; // Drag your existing UI Text here
+    public TextMeshProUGUI scoreText;
+    public GameObject victoryMessage;
 
-    private int count = 0;
-    private const int total = 6;
+    private int currentCount = 0;
+    private const int maxItems = 6;
 
-    private void Awake() => Instance = this;
-
-    private void Start()
+    private void Awake()
     {
-        UpdateDisplay();
+        Instance = this;
+        if (victoryMessage != null) victoryMessage.SetActive(false);
     }
 
-    public void IncrementScore()
-    {
-        count++;
-        UpdateDisplay();
-    }
+    private void Start() => UpdateUI();
 
-    private void UpdateDisplay()
+    public void AddItem()
     {
-        if (scoreText != null)
+        currentCount++;
+        UpdateUI();
+        if (currentCount >= maxItems && victoryMessage != null)
         {
-            scoreText.text = $"{count} / {total}";
+            victoryMessage.SetActive(true);
         }
+    }
+
+    private void UpdateUI()
+    {
+        if (scoreText != null) scoreText.text = $"{currentCount}/{maxItems}";
     }
 }

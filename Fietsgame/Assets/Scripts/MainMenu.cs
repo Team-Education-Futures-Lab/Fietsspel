@@ -8,6 +8,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Level 1 Final");
     }
 
+    public void InstructionGame()
+    {
+        SceneManager.LoadScene("Instructions");
+    }
+
     public void QuitGame()
     {
         Application.Quit();
